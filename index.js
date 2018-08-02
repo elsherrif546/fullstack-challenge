@@ -6,6 +6,8 @@ const deleteFromDB = require('./server/database/insertDataHelpers').deleteFromDB
 const populateInProgress = require('./server/database/insertDataHelpers').populateInProgress;
 const populateClosed = require('./server/database/insertDataHelpers').populateClosed;
 
+const controllers = require('./server/controllers/controllers');
+
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -13,21 +15,19 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client/dist')));
 
-// app.get('pregame', controller fn that gets pregame data) // which is just blank scrren? 
-// could also just render empty scoreboard, or even just both teams with a "game time"
+// no request for pregame --> just render the "post game"
 
-// app.get('in progress', controller fn that gets in game data to popualte scoreboard)
+app.get('in progress', controllers.getInProgress); // controller fn that gets in game data to popualte scoreboard)
 
-// app.get('closed', controller fn that gets final score data to populate scoreboard)
+app.get('closed', controllers.getClosedData); // controller fn that gets final score data to populate scoreboard)
+
+// --> cause the "final" to render under "current" period?
 
 
 app.listen(port,() => {
   console.log(`Listening on port # ${port}`);
 })
 
-// deleteFromDB(() => { // delete everything from the DB
-//   console.log('deleted all?');
-// });
 
 // deleteFromDB(() => { // clean out DB, repopulate
 //   populateInProgress(() => {
@@ -35,4 +35,4 @@ app.listen(port,() => {
 //   })
 // });
 
-// populateInProgress(populateClosed); // run this command to populate DB (only this should be uncommented and shipped to BSS)
+// populateInProgress(populateClosed); // run this command to populate mongoDB instance running locally

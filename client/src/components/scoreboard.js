@@ -4,27 +4,25 @@ import axios from 'axios';
 
 
 class Scoreboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      score: 117
-    }
+  state = {
+    score: 117
   }
 
-  // componentDidMount = () => {
-  //   axios.get('//', {
-
-  //   })
-  //   .then((data) => {
-
-  //   })
-  //   .catch(err => {
-
-  //   });
-  // }
+  componentDidMount () {
+    axios.get('inProgress')
+      .then((inProgressData) => {
+        this.setState({
+          inProgress : inProgressData
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   render() {
    // create PREGAME function that only displays home and away with game time
+   // have this render first when there is no data, 
 
     return (
       <div>
