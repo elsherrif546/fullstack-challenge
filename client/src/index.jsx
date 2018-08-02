@@ -15,10 +15,6 @@ class App extends Component {
   render() {
     return (
       <div className="boxscore">
-       <div>
-         im in herererere in react
-        </div>
-        <Scoreboard currentTeam={this.state.team}/>
         <div className="boxscore__team boxscore__team--header">
           <label></label>
           <div className="boxscore__team__units">
