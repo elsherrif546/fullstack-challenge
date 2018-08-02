@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// const deleteFromDB = require('./server/database/insertDataHelpers').deleteFromDB
-// const populateInProgress = require('./server/database/insertDataHelpers').populateInProgress
-// const populateClosed = require('./server/database/insertDataHelpers').populateClosed
+const deleteFromDB = require('./server/database/insertDataHelpers').deleteFromDB;
+const populateInProgress = require('./server/database/insertDataHelpers').populateInProgress;
+const populateClosed = require('./server/database/insertDataHelpers').populateClosed;
 
 const app = express();
 
@@ -26,3 +26,5 @@ app.listen(port,() => {
 })
 
 // deleteFromDB(populateInProgress(populateClosed)); // do I need to reverse this? or just setup function itself to take a callback
+
+populateInProgress(populateClosed);
