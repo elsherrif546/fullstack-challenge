@@ -17,9 +17,9 @@ app.use(express.static(path.join(__dirname, './client/dist')));
 
 // no request for pregame --> just render the "post game"
 
-app.get('in progress', controllers.getInProgress); // controller fn that gets in game data to popualte scoreboard)
+app.get('/inProgress', controllers.getInProgress); // controller fn that gets in game data to popualte scoreboard)
 
-app.get('closed', controllers.getClosedData); // controller fn that gets final score data to populate scoreboard)
+app.get('/closed', controllers.getClosedData); // controller fn that gets final score data to populate scoreboard)
 
 // --> cause the "final" to render under "current" period?
 

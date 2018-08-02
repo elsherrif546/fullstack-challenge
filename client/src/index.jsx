@@ -5,22 +5,12 @@ import axios from 'axios';
 import Scoreboard from './components/scoreboard';
 import PreGame from './components/pregame';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // team: 'nyj'
-    }
-  }
-
-  render() {
-    return (
-      <div>
-         <PreGame />
-      </div>
-    
-    )
-  }
+const App = () => {
+  return (
+    <div>
+      <Scoreboard />
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
