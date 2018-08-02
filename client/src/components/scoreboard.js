@@ -10,7 +10,22 @@ class Scoreboard extends Component {
       score: 117
     }
   }
+
+  // componentDidMount = () => {
+  //   axios.get('//', {
+
+  //   })
+  //   .then((data) => {
+
+  //   })
+  //   .catch(err => {
+
+  //   });
+  // }
+
   render() {
+   // create PREGAME function that only displays home and away with game time
+
     return (
       <div>
         {this.props.currentTeam}'s score = {this.state.score}

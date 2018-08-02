@@ -1,6 +1,19 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/boxScore');
 
-const boxScoreSchema = new mongoose.Schema({
+var db = mongoose.connection;
+
+db.on('error', () => {
+  console.log('error connecting to mongo'); // i dont even see this, WWHY?!
+});
+
+db.on('open', () => {
+  console.log('mongo connected and running');
+});
+
+const Schema = mongoose.Schema;
+
+const boxScoreSchema = new Schema({
   id: { // this will represent each time of the game? or does this auto get created
     type: Number,
     unique: true
@@ -31,10 +44,7 @@ const boxScoreSchema = new mongoose.Schema({
     alias: String,
     id: String // may be unnecessary, just check if alias MLB --> add errors, runs, hits etc.
   },
-  id: {
-    type: String, // can use the "game" id (bottom of json file) --> this denotes a particular game, not Unique to time
-    unique: true
-  }
+  id: String
 });
 
 const BoxScore = mongoose.model('BoxScore', boxScoreSchema);

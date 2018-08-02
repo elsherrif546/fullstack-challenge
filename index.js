@@ -25,6 +25,14 @@ app.listen(port,() => {
   console.log(`Listening on port # ${port}`);
 })
 
-// deleteFromDB(populateInProgress(populateClosed)); // do I need to reverse this? or just setup function itself to take a callback
+// deleteFromDB(() => { // delete everything from the DB
+//   console.log('deleted all?');
+// });
 
-populateInProgress(populateClosed);
+// deleteFromDB(() => { // clean out DB, repopulate
+//   populateInProgress(() => {
+//     populateClosed();
+//   })
+// });
+
+// populateInProgress(populateClosed); // run this command to populate DB (only this should be uncommented and shipped to BSS)

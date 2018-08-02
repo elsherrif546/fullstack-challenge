@@ -2,27 +2,25 @@ const mongoose = require('mongoose');
 const inProgressGameData = require('./../data/innings.7.json');
 const closedGameData = require('./../data/innings.13.json');
 const BoxScore = require('./BoxScore');
-// var db = require('./db/index.js');
 
 // // could even chain promises together here??
-const deleteFromDB = (cb) => {
-  // actually delete everything from db with mongoose helper
-  BoxScore.deleteMany({}, (err, results) => {
+const deleteFromDB = cb => {
+  BoxScore.deleteMany({}, err => {
     if(err) {
       console.error(err);
     } else {
       console.log('Deleted everything from DB');
-      cb();
+      cb(); // but this is obviously running, since 1st time in proress runs, HOW>?!?
     }
   });
-}
+};
 
-const populateInProgress = (cb) => {
-  // actually populate db with in progress game data
-  // console.log('in progress data = ', inProgressGameData.game); // is this getting transpiled into an JS object literal?
-  let newGameData = new BoxScore(inProgressGameData.game);
-  console.log('newGameData', newGameData)
-  BoxScore.create(function (err) { // data is NOT getting SAVED --> why?
+const populateInProgress = cb => {
+  var newScore = new BoxScore(inProgressGameData.game);
+  // console.log('in progress = ', newScore);
+  console.log('1st time in progress')
+  newScore.save(err => {
+  // BoxScore.create(inProgressGameData.game, err => { // NONE of this will save until the connection is opened
     if(err) {
       console.error(err);
     } else {
@@ -30,13 +28,14 @@ const populateInProgress = (cb) => {
       cb();
     }
   });
-}
+};
 
 const populateClosed = () => {
-  //actually populate db with closed game data
-  console.log('closed data = ', closedGameData); // is this getting transpiled into an JS object literal?
-  // let newGameData = new BoxScore(closedGameData);
-  BoxScore.create((err) => {
+  var newScore = new BoxScore(closedGameData);
+  console.log('2nd time - closed')
+  // console.log('closed game = ', newScore);
+  newScore.save(err => {
+  // BoxScore.create(closedGameData, err => {
     if(err) {
       console.error(err);
     } else {
@@ -45,9 +44,8 @@ const populateClosed = () => {
   });
 };
 
-
 module.exports = {
-  deleteFromDB : deleteFromDB,
-  populateInProgress : populateInProgress,
-  populateClosed : populateClosed
+  deleteFromDB,
+  populateInProgress,
+  populateClosed
 }
