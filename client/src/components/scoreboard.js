@@ -6,36 +6,58 @@ import axios from 'axios';
 class Scoreboard extends Component {
   state = {
     pregame: true,
-    gameInProgressData : null,
-    gameOverData: null
+    gameData: null, // rolling update of current game data
+    league: null,
+    homeTeam: null,
+    awayTeam: null,
+    bottomOfInning: false,
+    currentPeriod: null
   }
 
-  showSeventhInning = () => {
+  resetPregame = () => {
     this.setState({
-      pregame: !this.state.pregame // trigger some ternary 
+      pregame: true, // need to use conditional rendering to only render "pregame" component
+      topOfInning: null, // if any other sport, this state can be removed
+      currentPeriod: null
     });
   };
+
+  showSeventhInning = () => {
+    axios.get('/inProgress')
+      .then(({data}) => {
+        this.setState({
+          pregame: !this.state.pregame, // trigger some ternary 
+          bottomOfInning: data.currentPeriodHalf === "B" ? 'BTM' : 'TOP',
+          currentPeriod: data.currentPeriod
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   getGameOver = () => {
     axios.get('/closed')
       .then(({data}) => {
         this.setState({
-          gameOverData: data
-        })
+          gameData : data,
+          bottomOfInning: data.currentPeriodHalf === "B" ? 'BTM' : 'TOP',
+          currentPeriod: data.currentPeriod
+        });
       })
       .catch((err) => {
         console.error(err);
       })
-  };
+  }
 
   componentDidMount () {
     axios.get('/inProgress')
       .then(({data}) => {
         this.setState({
-          gameInProgressData : data
-        }, () => {
-          console.log('gameInProgressData', this.state.gameInProgressData);
-        })
+          gameData : data,
+          league: data.league.alias,
+          // homeTeam: data
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -43,9 +65,19 @@ class Scoreboard extends Component {
   }
 
   render() {
+//     const show7thInning = this.state.pregame ? 
+// (<div>
+//           </div>)
+//            : ( <div>
+//             </div>)
+//       }
+console.log(this.state.league);
     return (
       <div>
         <div className="update-btn-container">
+          <div>
+            <button className="update-btn" onClick={this.resetPregame}>simulate pregame reset</button>
+          </div>
           <div>
             <button className="update-btn" onClick={this.showSeventhInning}>simulate 7th inning update</button>
           </div>
@@ -57,6 +89,7 @@ class Scoreboard extends Component {
           {/*need to insert some straight HTML organized, plus team details returned from the scoreboard? how to approach this*/}
           <div className="boxscore__team boxscore__team--header">
             <label></label>
+            {/* need to account for a basebal game being 9 innings, and then possibly going over if necessary */}
             <div className="boxscore__team__units">
               <span>1</span>
               <span>2</span>
@@ -120,6 +153,9 @@ class Scoreboard extends Component {
               <span>56-38</span>
             </div>
             <div className="boxscore__details__info">
+              {/* make sure to redesign schema to draw in current Period AND current Period from data*/}
+         {this.state.bottomOfInning ? <strong>BTM<br/>current Period</strong> : <strong>TOP<br/>current Period </strong> }
+            {/* create conditional rendering to check if game over --> render FINAL, or even just the post game component? */}
               <strong>Btm<br/>9th</strong>
             </div>
             <div className="boxscore__details__team boxscore__details__team--home">
@@ -131,8 +167,8 @@ class Scoreboard extends Component {
           </div>
         </div>
       </div>
-    )
-  }
+     )
+   }
  }
 
 export default Scoreboard;

@@ -9,7 +9,7 @@ getInProgress = (req, res) => {
     } else {
       res.send(inProgressData);
     }
-  }) // .exec(); is this necessary?
+  });
 };
 
 getClosedData = (req, res) => {
@@ -20,7 +20,7 @@ getClosedData = (req, res) => {
     } else {
       res.send(closedData);
     }
-  }); // .exec(); is this necessary?
+  });
 };
 
 module.exports = {

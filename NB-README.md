@@ -7,26 +7,27 @@ The DECLARATIONS of the data insertion functions discussed below live in the fol
 
  --> index.js
  
- # How to Insert Data into Locally running mongoDB instance
+ # How to Insert Data into Locally Running mongoDB Instance and Simualte Real-time Data Using Buttons at Top of Webpage
 
 Run "npm start" in the CLI with the below function invocation uncommented in the index.js file:
 
  populateInProgress(populateClosed); 
 
 --> This function will populate the locally running mongoDB instance with the boxScore table and corresponding dummy data
+--> Use the click-able buttons at the top of the page to simulate real-time changes in the box score widget
 
-# Clearing Database, re-inserting data 
+# Clearing Database, Re-Inserting Data 
 
 If the need to clear the DB and re-insert the data arises, do the following tasks:
 
   1) comment out "populateInProgress(populateClosed)"
-  2) uncomment and run the below comamand (ust above the "populateInProgress(populateClosed)" invocation in index.js)
+  2) uncomment and run the below comamand (just above the "populateInProgress(populateClosed)" invocation in index.js)
 
-# For further development
+# For Further Development
 
 In order to leverage nodemon for more efficient development, do the following tasks:
 
   1) make sure to comment out ALL data insertion invocations in index.js 
-      --> due to inherent nodemon process restarts that will result from repeated babel transpilations, commenting out the data         insetion invocations prevents attempts to re-insert duplicate data into the local mongoDB instance
+      --> due to inherent nodemon process restarts that will result from repeated babel transpilations, commenting out the data         insertion invocations prevents attempts to re-insert duplicate data into the local mongoDB instance
   2) run "npm run start-dev"
 

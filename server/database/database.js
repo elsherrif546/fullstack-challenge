@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 
-// Mongoose connection creation
-const config = { // prevents warning with deprecated URL parser
+// Mongoose Connection
+const config = { // this config object prevents warning with deprecated URL parser
   autoIndex: false,
   useNewUrlParser: true,
 };
 mongoose.connect('mongodb://localhost:27017/boxScore', config);
-
 var db = mongoose.connection;
 
 db.on('error', () => {
@@ -18,7 +17,7 @@ db.on('open', () => {
 });
 
 
-// Schema instantiation
+// Schema Design
 const Schema = mongoose.Schema;
 
 const boxScoreSchema = new Schema({
@@ -27,6 +26,7 @@ const boxScoreSchema = new Schema({
   awayTeamDetails: Array,
   homeTeamFinal: Number, // total score at current snapshot in time
   homeTeamDetails: Array,
+  currentPeriodHalf: String,
   currentPeriod: Number,
   homeTeam: {
     teamColor: String,
@@ -46,7 +46,7 @@ const boxScoreSchema = new Schema({
   },
   league: {
     alias: String,
-    id: String // may be unnecessary, just check if alias MLB --> add errors, runs, hits etc. ?
+    id: String
   },
   id: String
 });
