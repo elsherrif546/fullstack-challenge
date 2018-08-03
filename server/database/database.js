@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+
+// Mongoose connection creation
 const config = { // prevents warning with deprecated URL parser
   autoIndex: false,
   useNewUrlParser: true,
@@ -15,6 +17,8 @@ db.on('open', () => {
   console.log('mongo connected and running');
 });
 
+
+// Schema instantiation
 const Schema = mongoose.Schema;
 
 const boxScoreSchema = new Schema({

@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client/dist')));
 
-// no request for pregame --> just render the "post game"
+// no request for pregame --> just create a button to render "pre game" with just team names and game time
 
 app.get('/inProgress', controllers.getInProgress); // controller fn that gets in game data to popualte scoreboard)
 
@@ -23,8 +23,10 @@ app.get('/closed', controllers.getClosedData); // controller fn that gets final 
 
 // --> cause the "final" to render under "current" period?
 
+// if have time --> create "post game" to just run with final score && 
 
-app.listen(port,() => {
+
+app.listen(port, () => {
   console.log(`Listening on port # ${port}`);
 })
 
