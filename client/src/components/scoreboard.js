@@ -113,6 +113,9 @@ class Scoreboard extends Component {
         for(var i = 1; i <= baseLength; i++) {
           currentScores.push(0);
         }
+        currentScores = currentScores.map((zero, i) => {
+          return <span key={i}>0</span>
+        })
       } else if (!this.state.pregame && currentPeriod <= baseLength) {
           if (isHome) {
             currentScores = this.state.gameData.homeTeamDetails.map((period, i) => {
@@ -163,13 +166,13 @@ class Scoreboard extends Component {
             <label></label>
             {/* need to account for a baseball game being 9 innings, and then possibly going over if necessary */}
             <div className="boxscore__team__units">
-              {gameLength(this.state.baseSportLength)}
+              {/* {gameLength(this.state.baseSportLength)} */}
               {/* here is where a conditional lives to check if current period > minimum game length --> add extra time if necessary */}
-              {this.state.currentPeriod > 9
-                ? this.state.gameData.homeTeamDetails.map((period, i) => { // whether homDeatils / awayDetails used --> irrelevant
+              {this.state.currentPeriod < 9
+                ? gameLength(this.state.baseSportLength)
+                : this.state.gameData.homeTeamDetails.map((period, i) => { // whether homDeatils / awayDetails used --> irrelevant
                     return <span key={i}>{period.sequence}</span>
                   })
-                : null
               }
             </div>
             {/* if MLB --> render hits and errors accordingly (remove for non-baseball)*/}
