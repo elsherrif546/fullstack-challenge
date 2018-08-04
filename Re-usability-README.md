@@ -1,29 +1,30 @@
 # Re-usable Components for Different Sports Teams
-  --> how each component would be able to be adapted with different sports-type game feeds (NHL, NBA, NFL)
+  --> how each component could be adapted with different sports-type game feeds (NHL, NBA, NFL)
 
 # Different Time Periods
 
-  for non MLB games, simply remove the ternary operator checking the "currentPeriodHalf" property that returns a "Top" && "Bottom" from the DB and use a JS expression to insert the current period # along with the proper period type (Quarter, Period, etc.) hard-coded in
+  - For non MLB games, simply remove the ternary operator checking the "currentPeriodHalf" property that returns a      "Top" && "Bottom" from the DB and use a JS expression to insert the current period # along with the proper period   type (Quarter, Period, etc.) hard-coded in
 
 # MLB --> Hits && Errors
 
-  if data getting returned has "MLB" tag --> render the additional aggregated hits and errors adjacent to the total runs scored (up to that point in the game)
+   - If data getting returned has "MLB" tag --> render the additional aggregated hits and errors adjacent to the        total runs scored (up to that point in the game)
+   - Otherwise, ignore the extra "Hits" and "Errors" columns and only render whatever point system the sport uses
 
 # How to Render Minimum Amount of Game Periods WHILE the game is in-Progress
 
-  {/* need to create check for if MLB --> loop thru and create 9 spans : could set state to be whatever total is */}
-  {/* remember --> its react so leverage state =  */}
-  {/* if MLB --> set state ot be 9, and if extra innings, add that to state */}
-  {/* if currentPeriod > 9, then create mapping func that loops thru the remaining periods and adds an inning span */}
-
-  Upon initial db query during initial page load, use the "league" type to render the corresponding game length of whatever sport is selected (ex: MLB --> 9 innings);
+   - Upon initial app mounting, make a DB query to get the "league" type to render the corresponding game length of whatever sport is selected (ex: MLB --> 9 innings)
+   - 
+  
 
 # How to account for Extra Seuqences (Extra Innings, Overtime)
 
-  Need to check if the current length of home / away details (shouldnt matter which is chosen) is longer than minimum game time, if YES --> use the setState method to  --> this reset of state will cause a page re-render that loops thru the amount of sequences in home / away details to add the corresponding # of extra sequences
+  - IF the base minimum length of the specified sport has been reached, loop through the home and away teamDetails to render the score for each corresponding "extra" time periods
 
   REAL-TIME CAVEAT --> obviously, real-time data would have a socket constantly causing page re-render
 
 # Game Life Cycle --> Pre-game / In Game / Post-game
 
-  Leverage conditional rendering to render less robust pregame && postgame 
+  - Leverage conditional rendering to do the following for each life cycle:
+      - Pregame --> simply render blank scores across the board for either team, also include the upcoming game         time in the current period tracker
+      - In-Game --> keep track of runs (and in MLB case, hits and errors) for each corresponding period && totals       while also making sure to have "0" placeholders for periods that have not been reached yet
+      - Post-Game --> render "FINAL" in current period tracker, with fully updated scoreboard

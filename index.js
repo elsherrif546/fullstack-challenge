@@ -16,9 +16,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client/dist')));
 
 
-app.get('/inProgress', controllers.getInProgress); // controller fn that gets in-progress game data to popualte scoreboard)
+app.get('/inProgress', controllers.getInProgress); // controller/model that gets in-progress game data to populate scoreboard)
 
-app.get('/closed', controllers.getClosedData); // controller fn that gets final score data to populate scoreboard)
+app.get('/closed', controllers.getClosedData); // controller/model that gets final score data to populate scoreboard)
 
 
 app.listen(port, () => {

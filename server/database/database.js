@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Mongoose Connection
+// Mongoose Connection - LOCAL
 const config = { // this config object prevents warning with deprecated URL parser
   autoIndex: false,
   useNewUrlParser: true,
