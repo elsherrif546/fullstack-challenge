@@ -119,20 +119,24 @@ class Scoreboard extends Component {
       } else if (!this.state.pregame && currentPeriod <= baseLength) {
           if (isHome) {
             currentScores = this.state.gameData.homeTeamDetails.map((period, i) => {
-              if (period.sequence <= currentPeriod) {
-                return <span key={i}>{period.runs}</span>
-              } else {
-                return <span key={i}>0</span>
-              }
-            })
+              return <span key={i}>{period.runs}</span>
+            });
+            for(var i = currentScores.length; i < baseLength; i++) {
+              let emptyScore = (
+                <span>0</span>
+              )
+              currentScores.push(emptyScore);
+            }
           } else {
             currentScores = this.state.gameData.awayTeamDetails.map((period, i) => {
-              if (period.sequence <= currentPeriod) {
-                return <span key={i}>{period.runs}</span>
-              } else {
-                return <span key={i}>0</span>
-              }
+              return <span key={i}>{period.runs}</span>
             })
+            for(var i = currentScores.length; i < baseLength; i++) {
+              let emptyScore = (
+                <span>0</span>
+              )
+              currentScores.push(emptyScore);
+            }
           }
       } else { // this should account for any extra time periods
         if (isHome) {
