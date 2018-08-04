@@ -16,13 +16,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client/dist')));
 
 
-app.get('/inProgress', controllers.getInProgress); // controller fn that gets in game data to popualte scoreboard)
+app.get('/inProgress', controllers.getInProgress); // controller fn that gets in-progress game data to popualte scoreboard)
 
 app.get('/closed', controllers.getClosedData); // controller fn that gets final score data to populate scoreboard)
-
-// --> cause the "final" to render under "current" period?
-
-// if have time --> create "post game" to just run with final score && 
 
 
 app.listen(port, () => {
