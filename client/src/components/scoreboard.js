@@ -13,10 +13,12 @@ class Scoreboard extends Component {
     homeTeamName: null,
     awayTeamAbbr: null,
     awayTeamName: null,
-    homeHitTotal: 0,
-    awayHitTotal: 0,
-    homeErrorTotal: 0,
-    awayErrorTotal: 0,
+    homeTeamFinal: 0,
+    awayTeamFinal: 0,
+    homeHitTotal: 0, // only MLB
+    awayHitTotal: 0, // only MLB
+    homeErrorTotal: 0, // only MLB
+    awayErrorTotal: 0, // only MLB
     currentLength: null, // this needs to be set to whatever sport minimum length (9 innings for MLB, 4 qtrs for NHL, etc.) --> then auto expand for extra time
     bottomOfInning: false,
     currentPeriod: null, // need to render pregame component if game not started
@@ -26,15 +28,18 @@ class Scoreboard extends Component {
     this.setState({
       pregame: true, // need to use conditional rendering to only render "pregame" component
       topOfInning: null, // if any other sport, this state can be removed
-      currentPeriod: null
+      currentPeriod: null,
+      homeTeamFinal: 0,
+      awayTeamFinal: 0
     });
   };
 
-  showSeventhInning = () => {
+  getSeventhInning = () => {
     axios.get('/inProgress')
       .then(({data}) => {
         this.setState({
-          pregame: !this.state.pregame, // trigger some ternary 
+          pregame: false, // trigger ternary
+          gameData: data,
           status: data.status,
           bottomOfInning: data.currentPeriodHalf === "B" ? 'BTM' : 'TOP',
           currentPeriod: data.currentPeriod,
@@ -94,14 +99,6 @@ class Scoreboard extends Component {
   }
 
   render() {
-    // console.log('this.state.gameData', this.state.gameData);
-    // const renderPregame = this.state.pregame ? 
-    //   (<div>
-    //     </div>)
-    //     : (
-    //       <div>
-    //       </div>
-    //     )
     return (
       <div>
         <div className="update-btn-container">
@@ -109,13 +106,19 @@ class Scoreboard extends Component {
             <button className="update-btn" onClick={this.resetPregame}>simulate pregame reset</button>
           </div>
           <div>
-            <button className="update-btn" onClick={this.showSeventhInning}>simulate 7th inning update</button>
+            <button className="update-btn" onClick={this.getSeventhInning}>simulate 7th inning update</button>
           </div>
           <div>
             <button className="update-btn" onClick={this.getGameOver}>simulate game over update</button>
           </div>
         </div>
         <div className="boxscore">
+          {/* { this.state.league === 'MLB' 
+            ? this.setState({
+                currentLength : 9
+            })
+            : null
+          } */}
           <div className="boxscore__team boxscore__team--header">
             <label></label>
             {/* need to account for a baseball game being 9 innings, and then possibly going over if necessary */}
@@ -134,7 +137,7 @@ class Scoreboard extends Component {
               {/* if MLB --> set state ot be 9, and if extra innings, add that to state */}
               {/* if currentPeriod > 9, then create mapping func that loops thru the remaining periods and adds an inning span */}
             </div>
-            {/* if mLB --> render hits and errors accoridngly */}
+            {/* if MLB --> render hits and errors accordingly */}
             { this.state.league === 'MLB'
               ?
               <div className="boxscore__team__results">
@@ -144,7 +147,7 @@ class Scoreboard extends Component {
               </div>
               : 
               <div className="boxscore__team__results">
-                <span>*Point Type*</span>
+                <span>* Pts/Goals *</span> {/* whatever score system */}
               </div>
             }
           </div>
@@ -165,7 +168,7 @@ class Scoreboard extends Component {
             { this.state.league === 'MLB'
               ?
               <div className="boxscore__team__results">
-                <span>{this.state.gameData.homeTeamFinal}</span>
+                <span>{this.state.homeTeamFinal}</span>
                 <span>{this.state.homeHitTotal}</span>
                 <span>{this.state.homeErrorTotal}</span>
               </div>
@@ -191,7 +194,7 @@ class Scoreboard extends Component {
               { this.state.league === 'MLB'
                 ?
                 <div className="boxscore__team__results">
-                  <span>{this.state.gameData.awayTeamFinal}</span>
+                  <span>{this.state.awayTeamFinal}</span>
                   <span>{this.state.awayHitTotal}</span>
                   <span>{this.state.awayErrorTotal}</span>
                 </div>
@@ -206,15 +209,16 @@ class Scoreboard extends Component {
               <p>
                 <strong>{this.state.homeTeamName}</strong><small>{this.state.homeTeamAbbr}</small>
               </p>
-              <span>56-38</span> {/* no record included in dummy data, leave for better visual */}
+              <span>56-38</span> {/* no record included in dummy data, leave for cleaner UI */}
             </div>
             <div className="boxscore__details__info">
-            {/* for other sports: simply get rid of ternary and include currentPeriod + hard-coded Prd, Qtr, etc. for NHL, NBA, NHL games */}
-            {/* create conditional rendering to check if game over --> render "FINAL" in current period section if 'CLOSED' */}
-               { this.state.status === 'CLOSED'
+            {/* for non-MLB games --> just need to remove "BTM"/"TOP" section of ternary and include currentPeriod + hard-coded Prd, Qtr, etc. for NHL, NBA, NHL games */}
+            {/* leverage conditional rendering w/ ternaries to check game progress --> pregame / postgame / in-progress */}
+               { this.state.pregame
+                ? <strong>TODAY<br/>7:10pm EST</strong>
+                : this.state.status === 'CLOSED'
                 ? <strong>FINAL</strong>
-                :
-                 this.state.bottomOfInning
+                : this.state.bottomOfInning
                 ? <strong>BTM<br/>{this.state.currentPeriod}{this.getExtension(this.state.currentPeriod)}</strong> 
                 : <strong>TOP<br/>{this.state.currentPeriod}{this.getExtension(this.state.currentPeriod)}</strong> 
                }
@@ -223,7 +227,7 @@ class Scoreboard extends Component {
               <p>
                 <strong>{this.state.awayTeamName}</strong><small>{this.state.awayTeamAbbr}</small>
               </p>
-              <span>56-38</span> {/* no record included in dummy data, leave for better visual */}
+              <span>56-38</span> {/* no record included in dummy data, leave for cleaner UI */}
             </div>
           </div>
         </div>
