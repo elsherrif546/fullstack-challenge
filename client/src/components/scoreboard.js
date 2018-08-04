@@ -15,9 +15,9 @@ class Scoreboard extends Component {
     awayTeamName: null,
     homeTeamFinal: 0,
     awayTeamFinal: 0,
-    currentSportLength: 9, // this needs to be set to whatever sport minimum length (9 innings for MLB, 4 qtrs for NHL, etc.) --> then auto expand for extra time
+    baseSportLength: 9, // this needs to be set to whatever sport minimum length (9 innings for MLB, 4 qtrs for NHL, etc.) --> then auto expand for extra time
     bottomOfInning: false,
-    currentPeriod: null
+    currentPeriod: null // keep track of current place in the game
   }
 
   resetPregame = () => {
@@ -107,6 +107,44 @@ class Scoreboard extends Component {
       })
     }
 
+    const renderTeamScore = (baseLength, currentPeriod, isHome) => {
+      let currentScores = [];
+      if (this.state.pregame) {
+        for(var i = 1; i <= baseLength; i++) {
+          currentScores.push(0);
+        }
+      } else if (!this.state.pregame && currentPeriod <= baseLength) {
+          if (isHome) {
+            currentScores = this.state.gameData.homeTeamDetails.map((period, i) => {
+              if (period.sequence <= currentPeriod) {
+                return <span key={i}>{period.runs}</span>
+              } else {
+                return <span key={i}>0</span>
+              }
+            })
+          } else {
+            currentScores = this.state.gameData.awayTeamDetails.map((period, i) => {
+              if (period.sequence <= currentPeriod) {
+                return <span key={i}>{period.runs}</span>
+              } else {
+                return <span key={i}>0</span>
+              }
+            })
+          }
+      } else { // this should account for any extra time periods
+        if (isHome) {
+          currentScores = this.state.gameData.homeTeamDetails.map((period, i) => {
+            return <span key={i}>{period.runs}</span>
+          })
+        } else {
+          currentScores = this.state.gameData.awayTeamDetails.map((period, i) => {
+            return <span key={i}>{period.runs}</span>
+          })
+        }
+      }
+      return currentScores;
+    }
+
     return (
       <div>
         <div className="update-btn-container">
@@ -125,14 +163,13 @@ class Scoreboard extends Component {
             <label></label>
             {/* need to account for a baseball game being 9 innings, and then possibly going over if necessary */}
             <div className="boxscore__team__units">
-              {gameLength(this.state.currentSportLength)}
+              {gameLength(this.state.baseSportLength)}
               {/* here is where a conditional lives to check if current period > minimum game length --> add extra time if necessary */}
               {this.state.currentPeriod > 9
                 ? this.state.gameData.homeTeamDetails.map((period, i) => { // whether homDeatils / awayDetails used --> irrelevant
                     return <span key={i}>{period.sequence}</span>
-                })
-                :
-                null
+                  })
+                : null
               }
             </div>
             {/* if MLB --> render hits and errors accordingly (remove for non-baseball)*/}
@@ -145,15 +182,17 @@ class Scoreboard extends Component {
               </div>
               : 
               <div className="boxscore__team__results">
-                <span>* Pts/Goals *</span> {/* whatever score system other sports uses */}
+                <span>* Pts/Goals *</span> {/* whatever score system other sport uses */}
               </div>
             }
           </div>
           <div className="boxscore__team boxscore__team--home">
             <label>{this.state.homeTeamAbbr}</label>
             <div className="boxscore__team__units">
-              {/* populate with whatever current runs are --> the rest need to be just 0 */}
-              <span>1</span>
+              {/* populate with whatever current runs/points are --> the rest need to be just 0 */}
+   {/* insert function to properly render scores of each team here */}
+              {renderTeamScore(this.state.baseSportLength, this.state.currentPeriod, true)}           
+              {/* <span>0</span>
               <span>0</span>
               <span>2</span>
               <span>0</span>
@@ -161,7 +200,7 @@ class Scoreboard extends Component {
               <span>0</span>
               <span>0</span>
               <span>1</span>
-              <span>1</span>
+              <span>1</span> */}
             </div>
             { this.state.league === 'MLB'
               ?
@@ -188,14 +227,16 @@ class Scoreboard extends Component {
               </div>
               : 
               <div className="boxscore__team__results">
-                <span>*Point Type*</span> {/* whatever score system other sports uses */}
+                <span>*Point Type*</span> {/* whatever score system other sport uses */}
               </div>
             }
           </div>
           <div className="boxscore__team boxscore__team--away">
             <label>{this.state.awayTeamAbbr}</label>
             <div className="boxscore__team__units">
-              <span>0</span>
+  {/* insert function to properly render scores of each team here */}
+              {renderTeamScore(this.state.baseSportLength, this.state.currentPeriod, false)} 
+              {/* <span>0</span>
               <span>0</span>
               <span>0</span>
               <span>3</span>
@@ -203,7 +244,7 @@ class Scoreboard extends Component {
               <span>0</span>
               <span>0</span>
               <span>0</span>
-              <span>1</span>
+              <span>1</span> */}
             </div>
             { this.state.league === 'MLB'
               ?
