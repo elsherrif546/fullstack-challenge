@@ -11,6 +11,11 @@
 
 # How to Render Minimum Amount of Game Periods WHILE the game is in-Progress
 
+  {/* need to create check for if MLB --> loop thru and create 9 spans : could set state to be whatever total is */}
+  {/* remember --> its react so leverage state =  */}
+  {/* if MLB --> set state ot be 9, and if extra innings, add that to state */}
+  {/* if currentPeriod > 9, then create mapping func that loops thru the remaining periods and adds an inning span */}
+
   Upon initial db query during initial page load, use the "league" type to render the corresponding game length of whatever sport is selected (ex: MLB --> 9 innings);
 
 # How to account for Extra Seuqences (Extra Innings, Overtime)
