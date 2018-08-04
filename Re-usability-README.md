@@ -12,10 +12,8 @@
 
 # How to Render Minimum Amount of Game Periods WHILE the game is in-Progress
 
-   - Upon initial app mounting, make a DB query to get the "league" type to render the corresponding game length of whatever sport is selected (ex: MLB --> 9 innings)
-   - 
+   - Upon initial app mounting, make a DB query to get the "league" & therefore "minimum base length" of whatever       sport is selected (ex: MLB --> 9 innings) within the scoreboard component
   
-
 # How to account for Extra Seuqences (Extra Innings, Overtime)
 
   - IF the base minimum length of the specified sport has been reached, loop through the home and away teamDetails to render the score for each corresponding "extra" time periods

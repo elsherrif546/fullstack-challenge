@@ -8,21 +8,21 @@ class Scoreboard extends Component {
     pregame: true,
     gameData: null, // rolling update of current game data
     status: null, // use to check if in progress / closed
-    league: this.props.league, // include for potentially checking other game feeds (MLB --> render hits / errors / 9 innings, etc.)
+    league: this.props.league, // include for potentially checking other sports' feeds (MLB --> render hits / errors / 9 innings, etc.)
     homeTeamAbbr: null,
     homeTeamName: null,
     awayTeamAbbr: null,
     awayTeamName: null,
     homeTeamFinal: 0,
     awayTeamFinal: 0,
-    baseSportLength: this.props.baseSportLength, // coming from main app file --> sets base length depending on sport type
+    baseSportLength: this.props.baseSportLength, // sets base length depending of sport type
     bottomOfInning: false,
     currentPeriod: null // keep track of current place in the game
   }
 
   resetPregame = () => {
     this.setState({
-      pregame: true, // use for conditional rendering of pre-game stats
+      pregame: true,
       topOfInning: null, // if any other sport, this property of state can be removed
       currentPeriod: null,
       homeTeamFinal: 0,
@@ -122,7 +122,7 @@ class Scoreboard extends Component {
             });
             for(var i = currentScores.length; i < baseLength; i++) {
               let emptyScore = ( <span key={i}>0</span> )
-              currentScores.push(emptyScore); // renders a "0" for any non-reached scoring periods
+              currentScores.push(emptyScore); // renders a "0" for any unreached scoring periods
             }
           } else {
             currentScores = this.state.gameData.awayTeamDetails.map((period, i) => {
@@ -130,10 +130,10 @@ class Scoreboard extends Component {
             })
             for(var i = currentScores.length; i < baseLength; i++) {
               let emptyScore = ( <span key={i}>0</span> )
-              currentScores.push(emptyScore); // renders a "0" for any non-reached scoring periods
+              currentScores.push(emptyScore); // renders a "0" for any unreached scoring periods
             }
           }
-      } else { // this should account for any "extra" time periods
+      } else { // accounts for any "extra" time periods
         if (isHome) {
           currentScores = this.state.gameData.homeTeamDetails.map((period, i) => {
             return <span key={i}>{period.runs}</span>

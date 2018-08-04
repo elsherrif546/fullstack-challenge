@@ -22,9 +22,9 @@ const Schema = mongoose.Schema;
 
 const boxScoreSchema = new Schema({
   status: String,
-  awayTeamFinal: Number, // total score at current snapshot in time
+  awayTeamFinal: Number, // total score at current time
   awayTeamDetails: Array,
-  homeTeamFinal: Number, // total score at current snapshot in time
+  homeTeamFinal: Number, // total score at current time
   homeTeamDetails: Array,
   currentPeriodHalf: String,
   currentPeriod: Number,
