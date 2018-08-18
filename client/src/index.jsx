@@ -57,7 +57,7 @@ class App extends Component {
       <div>
         {this.state.sportTypeCheck
           ? this.renderScoreboard()
-          : null
+          : null // couldve put "a spinner here or soemthing"
         }
       </div>
     )
