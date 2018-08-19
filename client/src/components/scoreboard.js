@@ -17,6 +17,7 @@ class Scoreboard extends Component {
     awayTeamFinal: 0,
     baseSportLength: this.props.baseSportLength, // sets base length depending of sport type
     bottomOfInning: false,
+    progress: 0,
     currentPeriod: null // keep track of current place in the game
   }
 
@@ -78,6 +79,29 @@ class Scoreboard extends Component {
     }
   }
 
+  reset = () => {
+    this.setState({
+      progress: 0
+    });
+  }
+
+  load = () => { 
+    var progress = this.state.progress;
+    var that = this;
+    function startLoad () {
+      if (progress >= 100) {
+        clearInterval(load);
+      } else {
+        that.setState({
+          progress: progress += 10
+        }, () => {
+          console.log('how many times does this run?')
+        });
+      }
+    }
+    var load = setInterval(startLoad, 300)
+  }
+
   componentDidMount () {
     axios.get('/inProgress')
       .then(({data}) => {
@@ -96,6 +120,7 @@ class Scoreboard extends Component {
   }
 
   render() {
+
     const gameLength = (baseLength) => {
       let minimumGameLength = [];
       for(var i = 1; i <= baseLength; i++) {
@@ -147,8 +172,6 @@ class Scoreboard extends Component {
       return currentScores;
     }
 
-    console.log('when does this render ', this.props.baseSportLength)
-
     return (
       <div>
         <div className="update-btn-container"> {/* buttons with real-time simulation click handlers */}
@@ -161,6 +184,12 @@ class Scoreboard extends Component {
           <div>
             <button className="update-btn" onClick={this.getGameOver}>simulate game over update</button>
           </div>
+        </div>
+        <div>
+          <button onClick={this.load} className="load">load</button>
+        </div>
+        <div className="progress-bar">
+          <div style={{width: `${this.state.progress}%`}} className="progress-bar__current-progress"> {/* add style - width tag here */}{`${this.state.progress}%`}</div>
         </div>
         <div className="boxscore">
           <div className="boxscore__team boxscore__team--header">
