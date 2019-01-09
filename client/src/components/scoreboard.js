@@ -91,15 +91,21 @@ class Scoreboard extends Component {
     function startLoad () {
       if (progress >= 100) {
         clearInterval(load);
+        that.setState(() => {
+          return {
+            progress : 0
+          }
+        })
       } else {
         that.setState({
-          progress: progress += 10
+          progress: progress += 1
         }, () => {
           console.log('how many times does this run?')
         });
       }
     }
-    var load = setInterval(startLoad, 300)
+    var load = setInterval(startLoad, 50)
+    // setInterval(startLoad, 150); // cant use this --> need to assign interval to a var so it can be clearedo
   }
 
   componentDidMount () {
@@ -189,7 +195,7 @@ class Scoreboard extends Component {
           <button onClick={this.load} className="load">load</button>
         </div>
         <div className="progress-bar">
-          <div style={{width: `${this.state.progress}%`}} className="progress-bar__current-progress"> {/* add style - width tag here */}{`${this.state.progress}%`}</div>
+          <div style={{width: `${this.state.progress}%`}} className="progress-bar__current-progress">{`${this.state.progress}%`}</div>
         </div>
         <div className="boxscore">
           <div className="boxscore__team boxscore__team--header">

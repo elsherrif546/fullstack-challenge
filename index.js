@@ -25,10 +25,10 @@ app.listen(port, () => {
   console.log(`Listening on port # ${port}`);
 })
 
-// deleteFromDB(() => { // uncomment this series of async methods to clean out DB and then repopulate it
-//   populateInProgress(() => {
-//     populateClosed();
-//   })
-// });
+deleteFromDB(() => { // uncomment this series of async methods to clean out DB and then repopulate it
+  populateInProgress(() => {
+    populateClosed();
+  })
+});
 
 // populateInProgress(populateClosed); // uncomment this method to populate mongoDB instance running locally
