@@ -2,63 +2,56 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import Scoreboard from './components/scoreboard';
-
 
 class App extends Component {
   state = {
-    league: null,
-    baseSportLength: null,
-    sportTypeCheck: false, // root condition that will only render scoreboard once sport type returned from initial DB query
+    progress: 0
   }
 
-  renderScoreboard = () => {
-    return (
-      <div>
-        <Scoreboard baseSportLength={this.state.baseSportLength} league={this.state.league}/>
-      </div>
-    )
+  componentDidMount() {
+    // leverage axios to make requisite api calls
   }
-
-  componentWillMount() {
-    axios.get('/inProgress')
-      .then(({data}) => {
-        this.setState({
-          league: data.league.alias
+  componentWillMount() { // first true life cycle method --> called one time, before initial render - takes NO args
+    // therefore --> no access to native UI === DOM, and cannot access children refs (great for integrating w/ 3rd party libraries)
+    // great for helping to prepare for 1st render
+    // make corresponding state changes based on current  / next props and state
+  }
+  // progress bar sample
+  load = () => { 
+    var { progress } = this.state;
+    // var that = this;
+    // function startLoad () { // make var expression & swap out arrow fns to lexically bind instead of this/that hack
+    let startLoad = () => {
+      if (progress >= 100) {
+        clearInterval(load);
+        // that.setState(() => {
+        this.setState(() => {
+          return {
+            progress : 0
+          }
         })
-      })
-      .then(() => {
-        if (this.state.league === 'MLB') {
-          this.setState({
-            baseSportLength : 9
-          })
-        } else if (this.state.league === 'NBA' || this.state.league === 'NFL') {
-          this.setState({
-            baseSportLength: 4
-          })
-        } else {
-          this.setState({ // for NHL
-            baseSportLength: 3
-          })
-        }
-      })
-      .then(() => {
+      } else {
         this.setState({
-          sportTypeCheck: true
-        })
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+          progress: progress += 1
+        }, () => {
+          console.log('how many times does this run?')
+        });
+      }
+    }
+    var load = setInterval(startLoad, 50)
+    // setInterval(startLoad, 150); // cant use this --> need to assign interval to a var so it can be clearedo
   }
 
   render () {
     return (
       <div>
-        {this.state.sportTypeCheck
-          ? this.renderScoreboard()
-          : null // couldve put "a spinner here or soemthing"
-        }
+        <p style={{textAlign: 'center'}}>hello world.</p>
+        <div>
+          <button onClick={this.load} className="load">load</button>
+        </div>
+        <div className="progress-bar">
+          <div style={{width: `${this.state.progress}%`}} className="progress-bar__current-progress">{`${this.state.progress}%`}</div>
+        </div>
       </div>
     )
   }

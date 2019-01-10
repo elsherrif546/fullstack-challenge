@@ -5,7 +5,7 @@ const config = { // this config object prevents warning with deprecated URL pars
   autoIndex: false,
   useNewUrlParser: true,
 };
-mongoose.connect('mongodb://localhost:27017/boxScore', config);
+mongoose.connect('mongodb://localhost:27017/sampleDB', config); // swap in database name after local machine
 var db = mongoose.connection;
 
 db.on('error', () => {
@@ -17,43 +17,17 @@ db.on('open', () => {
 });
 
 
-// Schema Design
+// Schema Design --> may not be necessary with newest version
 const Schema = mongoose.Schema;
 
-const boxScoreSchema = new Schema({
+const sampleSchema = new Schema({
   status: String,
-  awayTeamFinal: Number, // total score at current time
-  awayTeamDetails: Array,
-  homeTeamFinal: Number, // total score at current time
-  homeTeamDetails: Array,
-  currentPeriodHalf: String,
-  currentPeriod: Number,
-  homeTeam: {
-    teamColor: String,
-    textColor: String,
-    abbr: String,
-    market: String,
-    name: String,
-    id: String
-  },
-  awayTeam: {
-    teamColor: String,
-    textColor: String,
-    abbr: String,
-    market: String,
-    name: String,
-    id: String
-  },
-  league: {
-    alias: String,
-    id: String
-  },
-  id: String
+  testNumber: Number
 });
 
-const BoxScore = mongoose.model('BoxScore', boxScoreSchema);
+const Sample = mongoose.model('Sample', sampleSchema); // change model name to whatever is needed
 
 module.exports = {
-  BoxScore,
+  Sample, // change model name
   db
 }
