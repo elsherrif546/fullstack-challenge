@@ -33,8 +33,9 @@ run the following commands:
 
 - npm install
 - npm start (do not use start-dev, leverages nodemon which will auto reload server when changes saved)
-		--> npm start will build the front-end and spool up the server
-		--> check localhost:3000 to view the application in the browser of your choice
+		--> NOTE: make sure to uncomment insertSample() command to populate your locally running mongoDB instance with the sample data
+- npm start will build the front-end and spool up the server
+- check localhost:3000 to view the application in the browser of your choice
 
 ### Broken Code Explanations (if necssary):
 - was not able to finish designing the controller needed to query the DB for outfit with a "color scheme" 

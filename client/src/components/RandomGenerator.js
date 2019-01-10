@@ -31,7 +31,6 @@ class RandomGenerator extends Component {
     // leverage promise chaining
     axios.post('/random', randomOutfit)
     .then((response)=>{
-      console.log('successfully added!') // nothing really to do, could render a success message adjacent to submit (if time)
       this.setState({
         randomOutfit: response.data // this would return a random outfit (still need to return api call)
       })
@@ -42,13 +41,18 @@ class RandomGenerator extends Component {
   }
 
   render () {
+    const { colorOne, colorTwo } = this.state
     return (
       <div className='randomForm'>
-        random generator button will be here and render below
+        Generate Outfit Based on Two Colors:
         <form>
           <label>
-            Name:
-            <input type="text" name="name" className='input' value={name} onChange={this.handleChange} />
+            Color One:
+            <input type="text" name="name" className='input' value={colorOne} onChange={this.handleChange} />
+          </label>
+          <label>
+            Color Two:
+            <input type="text" name="name" className='input' value={colorTwo} onChange={this.handleChange} />
           </label>
           <input type="submit" className='randomSubmit' value="Submit" />
         </form>

@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, './client/dist')));
 
 app.post('/add', addClothing)
 
-app.get('/random', )
+app.get('/random', getRandom)
 
 
 app.listen(port, () => {
