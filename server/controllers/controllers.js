@@ -12,6 +12,12 @@ addClothing = (req, res) => {
   });
 };
 
+getRandom = (req, res) => {
+  // strip off 2 colors from the req object
+  // would need to then get minimum of shirt/pants/shoes combo (if not more)
+}
+
 module.exports = {
-  addClothing
+  addClothing,
+  getRandom
 }

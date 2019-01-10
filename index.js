@@ -6,7 +6,7 @@ const { deleteFromDB } = require('./server/database/insertDataHelpers')
 const { insertSample } = require('./server/database/insertDataHelpers')
 
 const controllers = require('./server/controllers/controllers'); // all controller methods live here
-const { addClothing } = controllers
+const { addClothing, getRandom } = controllers
 
 const app = express();
 
@@ -18,6 +18,8 @@ app.use(express.static(path.join(__dirname, './client/dist')));
 // ROUTES
 
 app.post('/add', addClothing)
+
+app.get('/random', )
 
 
 app.listen(port, () => {
