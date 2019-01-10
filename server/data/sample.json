@@ -1,6 +1,10 @@
-{
-  "test": {
-    "status": "sample",
-    "testNumber": 4
+[
+  {
+    "name": "ACDC shirt",
+    "type": "t-shirt",
+    "bodyPart": "torso",
+    "color": "red",
+    "lightnessLevel": "medium",
+    "imageUrl": "https://www.customink.com/products/styles/jerzees-nublend-50-50-pullover-hoodie/129800?PK=129811&cid=&quote_fc=1&noindex=1&pc=PLA-154982&quote_bc=0&quote_qty=100&samples=true&mrkgcl=293&mrkgadid=3319530137&product_id=129800%7CMaroon%7CL&adpos=1o3&creative=232814353328&device=c&matchtype=&network=s&gclid=CjwKCAiA99vhBRBnEiwAwpk-uGADlN3-seqlky6lhx9lWMiWHS8zIfxP6Ln2YOWRS8BbzOndbxXGwhoCN9IQAvD_BwE&gclsrc=aw.ds"
   }
-}
+]

@@ -5,7 +5,7 @@ const config = { // this config object prevents warning with deprecated URL pars
   autoIndex: false,
   useNewUrlParser: true,
 };
-mongoose.connect('mongodb://localhost:27017/sampleDB', config); // swap in database name after local machine
+mongoose.connect('mongodb://localhost:27017/garbGuess', config);
 var db = mongoose.connection;
 
 db.on('error', () => {
@@ -20,14 +20,18 @@ db.on('open', () => {
 // Schema Design --> may not be necessary with newest version
 const Schema = mongoose.Schema;
 
-const sampleSchema = new Schema({
-  status: String,
-  testNumber: Number
+const clothingSchema = new Schema({
+  name: String,
+  type: String,
+  bodyPart: String,
+  color: String,
+  lightnessLevel: String,
+  imageUrl: String
 });
 
-const Sample = mongoose.model('Sample', sampleSchema); // change model name to whatever is needed
+const Clothing = mongoose.model('Outfit', clothingSchema);
 
 module.exports = {
-  Sample, // change model name
+  Clothing,
   db
 }

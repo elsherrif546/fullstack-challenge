@@ -1,19 +1,33 @@
-
-.progress-bar {
-  background-color: grey;
-  display: flex;
-  height: 20px;
-  /* width: 100%; */
-  margin-left: 30%;
-  margin-right: 30%;
-  border-radius: 10px;
+.input {
+  display: block;
 }
-.progress-bar__current-progress {
-  background-color: tomato;
-  position: relative; /* key here is relative */
+.instruction {
+  text-align: left;
+  font-size: 1rem;
+}
+.randomGenerator {
+  border: 1px solid lightblue;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+.random--form {
+  padding: 1rem;
+}
+.randomSubmit {
+  margin-top: 1rem;
+  background: lightgreen;
+}
+.submit {
   text-align: center;
-  border-radius: 10px;
+  background: lightcoral;
+  margin-top: 1rem;
+  font-size: 2rem;
 }
-.load {
-  background-color: blue;
+.tagline {
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.title {
+  padding-bottom: 1rem;
+  text-align: center;
 }

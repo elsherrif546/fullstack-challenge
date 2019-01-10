@@ -6,6 +6,7 @@ const { deleteFromDB } = require('./server/database/insertDataHelpers')
 const { insertSample } = require('./server/database/insertDataHelpers')
 
 const controllers = require('./server/controllers/controllers'); // all controller methods live here
+const { addClothing } = controllers
 
 const app = express();
 
@@ -14,18 +15,16 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client/dist')));
 
-// RESTful express http methods go here
+// ROUTES
 
-// app.get('/someEndpoint', controller method)
-
-// app.post('/someEndpoint', controller method)
+app.post('/add', addClothing)
 
 
 app.listen(port, () => {
   console.log(`Listening on port # ${port}`);
 })
 
-// Data Insertion Scripts = add data insertion helpers here --> MAKE SURE TO COMMENT OUT after inserted once
+// Data Insertion Scripts = add data insertion helpers here
 
 // insertSample() // uncomment this method to populate mongoDB instance running locally
 
